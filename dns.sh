@@ -20,10 +20,10 @@ then
   resolvernombre
 elif [ $menuselect = "3" ]
 then
-  clear
+  
   echo "El servidor dns ha sido configurado al 100%, pero se recomiendo hacer comandos de comprobacion"
 else
-  clear
+  
   echo "No te entiendo, repitamos"
   menu
 fi
@@ -41,7 +41,7 @@ then
     rm -f /etc/bind/db.$dominio.nuevo
     echo "Tus cambios han sido guardados, volvemos al menu"
     sleep 2
-    clear
+    
     menu
   elif [ $menuselect = "2" ]
   then
@@ -49,7 +49,7 @@ then
     rm -f /etc/bind/db.$dominio.nuevo
     echo "Tus cambios han sido guardados, volvemos al menu"
     sleep 2
-    clear
+    
     menu
   fi
 elif [ $respuesta = "n" ]
@@ -60,14 +60,14 @@ then
     rm -f /etc/bind/db.$dominio.nuevo
     echo "Tus cambios no han sido guardados, volvemos al menu"
     sleep 2
-    clear
+    
     menu
   elif [ $menuselect = "2" ]
   then
     rm -f /etc/bind/db.$dominio.nuevo
     echo "Tus cambios no han sido guardados, volvemos al menu"
     sleep 2
-    clear
+    
     menu
   fi
 else
@@ -78,7 +78,7 @@ fi
 
 
 resolverip() {
-clear
+
 read -p "Dime el nombre de dominio a resolver: " dominioresolv
 read -p "Dime la ip correspondiente: " ipdominio
 read -p "Dime la ip correspondiente(la parte de hosts): " inversahost
@@ -98,7 +98,7 @@ aplicarcambios
 
 
 resolvernombre() {
-clear
+
 read -p "Dime el nombre de dominio a resolver: " dominioresolv
 read -p "Dime la dominio ya existente: " dominiocor
 cat > /etc/bind/db.$dominio.nuevo <<EOF
@@ -186,11 +186,11 @@ TTL='$TTL'
 read -p "¿Quieres instalar el servicio bind? Si ya lo tienes instalado no es necesario(y/n): " respu
 if [ $respu = y ]
 then
-clear
+
 instalarservicio
 fi
 sleep 2
-clear
+
 echo "Configurando Netplan"
 nic=`ifconfig | awk 'NR==1{print $1}'`
 staticip
@@ -215,7 +215,7 @@ netplan apply
 sleep 1
 echo "Netplan operativo"
 sleep 2
-clear
+
 echo "Configurando resolv.conf"
 cat > /etc/systemd/resolved.conf <<EOF
 [Resolve]
@@ -230,7 +230,7 @@ ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf
 sleep 1
 echo "Resolvconf operativo"
 sleep 2
-clear
+
 echo "Configurando nsswitch.conf"
 cat > /etc/nsswitch.conf <<EOF
 passwd:         files systemd
@@ -251,7 +251,7 @@ EOF
 sleep 1
 echo "Nsswitch operativo"
 sleep 2
-clear
+
 echo "Configurando zonas"
 cat > /etc/bind/named.conf.local <<EOF
 zone "$dominio" {
@@ -286,7 +286,7 @@ cp /etc/bind/db.default /etc/bind/db.$dominio
 cp /etc/bind/db.default /etc/bind/db.$inversa
 rm -f /etc/bind/db.default
 sleep 3
-clear
+
 echo "Vamos a configurar la resolucion de las ips"
 menu
 systemctl restart bind9
